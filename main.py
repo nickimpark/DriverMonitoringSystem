@@ -84,7 +84,7 @@ if __name__ == '__main__':
                 if NoBlinking == 1:
                     print(f"{datetime.now()} Driver doesn't blink for {round(NoBlinkingCounter, 2)} seconds")
                     NoBlinking = 0
-                    IsSleeping = 0
+                    IsUnconscious = 0
 
         except:
             pass
