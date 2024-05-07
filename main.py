@@ -1,6 +1,7 @@
 import cv2
 from timeit import default_timer as timer
 from datetime import datetime
+import requests
 
 from face_features_detector import FaceFeaturesDetector
 from action_monitor import ActionMonitor
@@ -41,6 +42,13 @@ if __name__ == '__main__':
             else:
                 if isDistracted == 1:
                     print(f"{datetime.now()} Driver distracted for {round(isDistractedCounter, 2)} seconds")
+                    requests.post("https://draconws.pythonanywhere.com/records",
+                                  json=[{
+                                      "type": "IsDistracted",
+                                      "text": "Водитель отвлечен от дороги",
+                                      "datetime": f"{datetime.now()}",
+                                      "duration": isDistractedCounter
+                                  }])
                     isDistracted = 0
             # Yawns flag
             if action_monitor.Yawns:
@@ -49,6 +57,13 @@ if __name__ == '__main__':
             else:
                 if Yawns == 1:
                     print(f"{datetime.now()} Driver yawns for {round(YawnsCounter, 2)} seconds")
+                    requests.post("https://draconws.pythonanywhere.com/records",
+                                  json=[{
+                                      "type": "Yawns",
+                                      "text": "Водитель зевает",
+                                      "datetime": f"{datetime.now()}",
+                                      "duration": YawnsCounter
+                                  }])
                     Yawns = 0
 
             # Condition monitor
@@ -66,9 +81,23 @@ if __name__ == '__main__':
                     if not IsSleeping:
                         IsSleeping = 1
                         print(f"{datetime.now()} Driver is sleeping!")
+                        requests.post("https://draconws.pythonanywhere.com/records",
+                                      json=[{
+                                          "type": "IsSleeping",
+                                          "text": "Водитель уснул",
+                                          "datetime": f"{datetime.now()}",
+                                          "duration": None
+                                      }])
             else:
                 if EyesClosed == 1:
                     print(f"{datetime.now()} Driver's eyes closed for {round(EyesClosedCounter, 2)} seconds")
+                    requests.post("https://draconws.pythonanywhere.com/records",
+                                  json=[{
+                                      "type": "EyesClosed",
+                                      "text": "Водитель закрыл глаза",
+                                      "datetime": f"{datetime.now()}",
+                                      "duration": EyesClosedCounter
+                                  }])
                     EyesClosed = 0
                     IsSleeping = 0
 
@@ -80,9 +109,23 @@ if __name__ == '__main__':
                     if not IsUnconscious:
                         IsUnconscious = 1
                         print(f"{datetime.now()} Driver is unconscious!")
+                        requests.post("https://draconws.pythonanywhere.com/records",
+                                      json=[{
+                                          "type": "IsUnconscious",
+                                          "text": "Водитель потерял сознание",
+                                          "datetime": f"{datetime.now()}",
+                                          "duration": None
+                                      }])
             else:
                 if NoBlinking == 1:
                     print(f"{datetime.now()} Driver doesn't blink for {round(NoBlinkingCounter, 2)} seconds")
+                    requests.post("https://draconws.pythonanywhere.com/records",
+                                  json=[{
+                                      "type": "NoBlinking",
+                                      "text": "Водитель не моргает",
+                                      "datetime": f"{datetime.now()}",
+                                      "duration": NoBlinkingCounter
+                                  }])
                     NoBlinking = 0
                     IsUnconscious = 0
 
