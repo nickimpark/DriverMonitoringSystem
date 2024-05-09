@@ -8,6 +8,8 @@ from action_monitor import ActionMonitor
 from condition_monitor import ConditionMonitor
 
 if __name__ == '__main__':
+    sensor_token = input("Enter sensor token: ")
+    print(f"Your sensor token is {sensor_token}")
     detector = FaceFeaturesDetector()
     action_monitor = ActionMonitor(detector)
     condition_monitor = ConditionMonitor(detector)
@@ -43,6 +45,7 @@ if __name__ == '__main__':
                 if isDistracted == 1:
                     print(f"{datetime.now()} Driver distracted for {round(isDistractedCounter, 2)} seconds")
                     requests.post("https://draconws.pythonanywhere.com/records",
+                                  headers={"Authorization": f"Bearer {sensor_token}"},
                                   json=[{
                                       "type": "IsDistracted",
                                       "text": "Водитель отвлечен от дороги",
@@ -58,6 +61,7 @@ if __name__ == '__main__':
                 if Yawns == 1:
                     print(f"{datetime.now()} Driver yawns for {round(YawnsCounter, 2)} seconds")
                     requests.post("https://draconws.pythonanywhere.com/records",
+                                  headers={"Authorization": f"Bearer {sensor_token}"},
                                   json=[{
                                       "type": "Yawns",
                                       "text": "Водитель зевает",
@@ -82,6 +86,7 @@ if __name__ == '__main__':
                         IsSleeping = 1
                         print(f"{datetime.now()} Driver is sleeping!")
                         requests.post("https://draconws.pythonanywhere.com/records",
+                                      headers={"Authorization": f"Bearer {sensor_token}"},
                                       json=[{
                                           "type": "IsSleeping",
                                           "text": "Водитель уснул",
@@ -92,6 +97,7 @@ if __name__ == '__main__':
                 if EyesClosed == 1:
                     print(f"{datetime.now()} Driver's eyes closed for {round(EyesClosedCounter, 2)} seconds")
                     requests.post("https://draconws.pythonanywhere.com/records",
+                                  headers={"Authorization": f"Bearer {sensor_token}"},
                                   json=[{
                                       "type": "EyesClosed",
                                       "text": "Водитель закрыл глаза",
@@ -110,6 +116,7 @@ if __name__ == '__main__':
                         IsUnconscious = 1
                         print(f"{datetime.now()} Driver is unconscious!")
                         requests.post("https://draconws.pythonanywhere.com/records",
+                                      headers={"Authorization": f"Bearer {sensor_token}"},
                                       json=[{
                                           "type": "IsUnconscious",
                                           "text": "Водитель потерял сознание",
@@ -120,6 +127,7 @@ if __name__ == '__main__':
                 if NoBlinking == 1:
                     print(f"{datetime.now()} Driver doesn't blink for {round(NoBlinkingCounter, 2)} seconds")
                     requests.post("https://draconws.pythonanywhere.com/records",
+                                  headers={"Authorization": f"Bearer {sensor_token}"},
                                   json=[{
                                       "type": "NoBlinking",
                                       "text": "Водитель не моргает",
